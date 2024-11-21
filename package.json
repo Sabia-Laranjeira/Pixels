@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/Sabia-Laranjeira/Pixels/issues"
   },
-  "homepage": "https://github.com/Sabia-Laranjeira/Pixels#readme"
+  "homepage": "https://github.com/Sabia-Laranjeira/Pixels#readme",
+  "type":"module"
 }
