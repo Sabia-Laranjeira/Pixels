@@ -1,3 +1,3 @@
 import createGrid from "./createGrid.js";
 
-createGrid(9);
+createGrid(3,3);
