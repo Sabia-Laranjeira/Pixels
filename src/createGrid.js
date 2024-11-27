@@ -2,11 +2,11 @@ import createPixel from "./createPixel.js";
 
 function createGrid(width = 3, height = 3) {
   const pixelsQuantity = width*height;
+  
   const grid = document.getElementById('pixels-grid');
   let pixelsInGrid = Array(height).fill().map(() => Array());
   let gridRow = null;
 
-  console.log(pixelsInGrid)
   grid.style.display = 'grid';
   grid.style.gridTemplateColumns = `repeat(${width}, 100px)`
 
@@ -15,7 +15,7 @@ function createGrid(width = 3, height = 3) {
   for(let p = 0; p < pixelsQuantity; p++) {
     pixel = createPixel(false,p);
     gridRow = pixelsInGrid[Math.floor(p/width)];
-    gridRow.push(pixel);
+    gridRow.push(pixel.element);
     grid.appendChild(pixel.element);
   }
   
