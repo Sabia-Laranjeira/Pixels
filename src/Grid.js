@@ -41,7 +41,7 @@ export class Grid {
     }
   }
 
-  init() {
+  init(rootElement,width,height) {
     if(!this.#width && !this.#height) {
       throw new Error("[EMPTY PARAMS] Cannot start because the 'width' and 'height' parameters are empty.")
     }
@@ -58,6 +58,11 @@ export class Grid {
     if(!element instanceof HTMLElement) {
       throw TypeError('[NOT HTML] The parameter given must be a HTML element.')
     }
+  }
+
+  isLessThan(number) {
+    const args = arguments;
+    console.log(args);
   }
 
   #createPixel(id) {
@@ -88,12 +93,34 @@ export class Grid {
     return pixelsElemInMatrix;
   }
 
-  turnPixelsOn(state = true,row = 0, column = 0) {
+  turnPixelsOn(state = true,column = 0, row = 0) {
     state = state ? 'on':'off';
     this.#pixelsElements[row][column].setAttribute('class',`pixel pixel-${state}`)
   }
 
-  render() {
-    
+  drawTrace(startPosition = [0,0], endPosition = [0,0]) {
+    this.turnPixelsOn(true,startPosition[0],startPosition[1]);
+    const xPath = [...Array(endPosition[0]).keys()].splice(startPosition[0]);
+    const yPath = [...Array(endPosition[1]).keys()].splice(startPosition[1]);
+
+    if(xPath.length >= yPath.length) {
+      const numbersToFill = xPath.length - yPath.length;
+      const yPathLastIndex = yPath.length - 1
+      for(let c = 0; c < numbersToFill; c++) {
+        yPath.push(yPath[yPathLastIndex])
+      }    
+    } else {
+      const numbersToFill = yPath.length - xPath.length;
+      const xPathLastIndex = xPath.length - 1;
+      for(let c = 0; c < numbersToFill; c++) {
+        xPath.push(xPath[xPathLastIndex]);
+      }
+    }
+    for(let i = 0; i < xPath.length; i++) {
+      this.turnPixelsOn(true,xPath[i],yPath[i]);
+    }
+
+    console.log(xPath);
+    console.log(yPath);
   }
 }
