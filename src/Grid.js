@@ -60,9 +60,11 @@ export class Grid {
     }
   }
 
-  isLessThan(number) {
-    const args = arguments;
-    console.log(args);
+  #convertToOne(number) {
+    if(number === 0) {
+      return 1
+    }
+    return number
   }
 
   #createPixel(id) {
@@ -98,10 +100,20 @@ export class Grid {
     this.#pixelsElements[row][column].setAttribute('class',`pixel pixel-${state}`)
   }
 
-  drawTrace(startPosition = [0,0], endPosition = [0,0]) {
-    this.turnPixelsOn(true,startPosition[0],startPosition[1]);
-    const xPath = [...Array(endPosition[0]).keys()].splice(startPosition[0]);
-    const yPath = [...Array(endPosition[1]).keys()].splice(startPosition[1]);
+  #pathTo(start = 0,end = 0) {
+    const path = []
+    for(let n = start ;n >= end; n--) {
+      path.push(n);
+    }
+    for(let n = start; n <= end; n++) {
+      path.push(n)
+    }
+    return [...path];
+  }
+
+  #generatePixelPath(startPosition = [0,0], endPosition = [0,0]) {
+    const xPath = this.#pathTo(startPosition[0],endPosition[0]);
+    const yPath = this.#pathTo(startPosition[1],endPosition[1])
 
     if(xPath.length >= yPath.length) {
       const numbersToFill = xPath.length - yPath.length;
@@ -116,11 +128,17 @@ export class Grid {
         xPath.push(xPath[xPathLastIndex]);
       }
     }
-    for(let i = 0; i < xPath.length; i++) {
-      this.turnPixelsOn(true,xPath[i],yPath[i]);
-    }
 
-    console.log(xPath);
-    console.log(yPath);
+    return {xPath,yPath}
+  }
+
+  drawTrace(startPosition = [0,0], endPosition = [0,0]) {
+    this.turnPixelsOn(true,startPosition[0],startPosition[1]);
+    
+    const {xPath,yPath} = this.#generatePixelPath(startPosition,endPosition);
+
+    for(let i = 0; i < xPath.length; i++) {
+       this.turnPixelsOn(true,xPath[i],yPath[i]);
+     }
   }
 }
