@@ -32,7 +32,7 @@ export class Grid {
     };
   }
 
-  setGridRoot(element) {
+  #setGridRoot(element) {
     try {
       this.#isHTML(element);
       this.#gridElementRoot = element;
@@ -42,9 +42,10 @@ export class Grid {
   }
 
   init(rootElement,width,height) {
-    if(!this.#width && !this.#height) {
-      throw new Error("[EMPTY PARAMS] Cannot start because the 'width' and 'height' parameters are empty.")
-    }
+    
+    this.#width = width;
+    this.#height = height;
+    this.#setGridRoot(rootElement);
     this.#pixelsElements = this.#createGrid(this.#width,this.#height);
   }
 
