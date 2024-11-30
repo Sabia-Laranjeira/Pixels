@@ -60,13 +60,6 @@ export class Grid {
     }
   }
 
-  #convertToOne(number) {
-    if(number === 0) {
-      return 1
-    }
-    return number
-  }
-
   #createPixel(id) {
     const pixel = document.createElement('div');
     pixel.setAttribute('id',`pixel-${id}`);
